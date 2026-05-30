@@ -30,7 +30,10 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-foreground/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-muted-foreground">
-          <p>© 2026 James Banana. Ticker: $JAMES on Monad.</p>
+          <div className="text-center md:text-left">
+            <p>© 2026 James Banana. Ticker: $JAMES on Monad.</p>
+            <p className="font-mono text-xs break-all">CA: 0xC613cFB15278ce6F3aC510BDB51a856Ae60E7777</p>
+          </div>
           <p className="italic">🍌 No bananas were harmed during meme production. 🍌</p>
         </div>
       </div>

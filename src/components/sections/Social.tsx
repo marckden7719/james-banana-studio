@@ -16,8 +16,6 @@ export function Social() {
           <h2 className="text-5xl md:text-7xl font-black text-banana-gradient mb-4">@jamescatbanana</h2>
           <p className="text-xl text-muted-foreground mb-8">The Banana Army wants you. Bring memes.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="https://x.com/jamescatbanana" target="_blank" rel="noreferrer" className="btn-banana rounded-2xl px-6 py-3">🐦 Follow On X</a>
-            <a href="https://t.me/jamesthebanana" target="_blank" rel="noreferrer" className="btn-neon rounded-2xl px-6 py-3">💬 Join Telegram</a>
             <a href="#community" className="btn-neon rounded-2xl px-6 py-3">🍌 Join Banana Army</a>
             <a href="#studio" className="rounded-2xl border-2 border-foreground/20 bg-foreground/5 px-6 py-3 font-bold hover:bg-foreground/10 transition">🎬 Create Your First Meme</a>
           </div>

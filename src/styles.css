@@ -46,6 +46,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-banana: var(--banana);
+  --color-neon-green: var(--neon-green);
+  --color-orange-pop: var(--orange-pop);
+  --color-deep-purple: var(--deep-purple);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);

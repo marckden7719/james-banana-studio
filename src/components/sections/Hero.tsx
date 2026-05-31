@@ -36,7 +36,6 @@ export function Hero() {
             Create hilarious AI-powered meme videos in seconds and unleash chaos across the internet.
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
-            <a href="https://nad.fun/tokens/0xC613cFB15278ce6F3aC510BDB51a856Ae60E7777" target="_blank" rel="noreferrer" className="btn-banana rounded-2xl px-6 py-3">💰 BUY $JAMES</a>
             <a href="#studio" className="btn-neon rounded-2xl px-6 py-3">🍌 Create Meme Video</a>
             <a href="#community" className="btn-neon rounded-2xl px-6 py-3">🚀 Join Community</a>
           </div>

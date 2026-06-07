@@ -24,7 +24,7 @@ export const monadChain: Chain = {
   },
 };
 
-const projectId = "james-banana-staking";
+const projectId = "14a6012ffc42d98b14cc3637e1c3c924";
 
 export const wagmiConfig = createConfig({
   chains: [monadChain],

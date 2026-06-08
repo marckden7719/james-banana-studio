@@ -12,7 +12,6 @@ export function StakingHero() {
 
   return (
     <section className="relative flex min-h-[60vh] flex-col items-center justify-center overflow-hidden px-4 pt-24 pb-12">
-      {/* Background glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/4 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-banana/10 blur-[120px]" />
         <div className="absolute bottom-0 left-1/2 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-neon-green/8 blur-[100px]" />
@@ -24,7 +23,6 @@ export function StakingHero() {
         transition={{ duration: 0.8 }}
         className="relative z-10 text-center"
       >
-        {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -34,7 +32,6 @@ export function StakingHero() {
           James Banana
         </motion.p>
 
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,7 +41,6 @@ export function StakingHero() {
           <span className="text-banana-gradient">STAKING</span>
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +51,6 @@ export function StakingHero() {
           <span className="font-bold text-banana">JAMES</span>. Unlock Exclusive Rewards.
         </motion.p>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,13 +58,7 @@ export function StakingHero() {
           className="flex flex-col items-center gap-4"
         >
           {!isConnected ? (
-            <ConnectButton.Custom>
-              {({ openConnectModal }) => (
-                <button onClick={openConnectModal} className="btn-banana px-8 py-4 text-lg">
-                  Connect Wallet
-                </button>
-              )}
-            </ConnectButton.Custom>
+            <ConnectButton label="Connect Wallet" />
           ) : !isMonad ? (
             <button
               onClick={() => switchChain({ chainId: monadChain.id })}

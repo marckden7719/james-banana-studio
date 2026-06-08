@@ -1,6 +1,6 @@
 // src/lib/wagmi-config.ts
 import { http, createConfig } from "wagmi";
-import { metaMask, walletConnect, injected } from "wagmi/connectors";
+import { metaMask, walletConnect, injected, safe } from "wagmi/connectors";
 import type { Chain } from "viem";
 
 export const monadChain: Chain = {
@@ -29,14 +29,24 @@ const projectId = "14a6012ffc42d98b14cc3637e1c3c924";
 export const wagmiConfig = createConfig({
   chains: [monadChain],
   connectors: [
-    metaMask(),
-    injected({ target: "rabby" }),
-    injected({ target: "okxWallet" }),
-    injected({ target: "backpack" }),
-    walletConnect({ projectId }),
+    metaMask({ dappMetadata: { name: "James Banana" } }),
+    safe(),
+    walletConnect({
+      projectId,
+      showQrModal: true,
+      metadata: {
+        name: "James Banana Staking",
+        description: "Stake MON, Earn JAMES",
+        url: "https://james-banana-studio.vercel.app",
+        icons: ["https://james-banana-studio.vercel.app/logobanana.jpg"],
+      },
+    }),
   ],
   transports: {
-    [monadChain.id]: http("https://rpc.monad.xyz"),
+    [monadChain.id]: http("https://rpc.monad.xyz", {
+      timeout: 10000,
+      retryCount: 1,
+    }),
   },
   ssr: false,
 });

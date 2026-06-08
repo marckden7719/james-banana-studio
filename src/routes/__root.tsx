@@ -7,14 +7,10 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { WagmiProvider } from "wagmi";
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { wagmiConfig } from "../lib/wagmi-config";
 
 function NotFoundComponent() {
   return (
@@ -39,7 +35,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  console.error("[RootError]", error);
   const router = useRouter();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
@@ -52,7 +48,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong. You can try refreshing or head back home.
+        </p>
+        <p className="mt-2 text-xs text-muted-foreground/60 font-mono break-all">
+          {error?.message}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -90,10 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@jamescatbanana" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/logobanana.jpg" },
       { rel: "apple-touch-icon", href: "/logobanana.jpg" },
     ],
@@ -121,12 +117,42 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [isClient, setIsClient] = useState(false);
+  const [WagmiProvider, setWagmiProvider] = useState<any>(null);
+  const [RainbowKitProvider, setRainbowKitProvider] = useState<any>(null);
+  const [wagmiConfig, setWagmiConfig] = useState<any>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
+
+    // Dynamic import wagmi only on client
+    import("wagmi")
+      .then((wagmiMod) => {
+        return import("@rainbow-me/rainbowkit").then((rkMod) => {
+          return import("../lib/wagmi-config").then((configMod) => {
+            setWagmiProvider(() => wagmiMod.WagmiProvider);
+            setRainbowKitProvider(() => rkMod.RainbowKitProvider);
+            setWagmiConfig(configMod.wagmiConfig);
+          });
+        });
+      })
+      .catch((err) => {
+        console.error("[WagmiLoadError]", err);
+        setLoadError(err?.message || "Failed to load wallet provider");
+      });
   }, []);
 
-  if (!isClient) {
+  // SSR / first render — no wagmi
+  if (!isClient || !WagmiProvider || !RainbowKitProvider || !wagmiConfig) {
+    if (loadError) {
+      return (
+        <QueryClientProvider client={queryClient}>
+          <div className="flex min-h-screen items-center justify-center">
+            <p className="text-sm text-orange-pop">Wallet provider error: {loadError}</p>
+          </div>
+        </QueryClientProvider>
+      );
+    }
     return (
       <QueryClientProvider client={queryClient}>
         <Outlet />
@@ -137,7 +163,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiConfig}>
-        <RainbowKitProvider theme={darkTheme()} modalSize="compact">
+        <RainbowKitProvider modalSize="compact">
           <Outlet />
         </RainbowKitProvider>
       </WagmiProvider>
